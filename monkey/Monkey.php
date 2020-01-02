@@ -50,6 +50,11 @@ class Monkey
      */
     public function run()
     {
+        $user = Monkey::$app->db->table('user')->where(['username' => 'lzw'])->get();
+        $user_1 = Monkey::$app->db->table('user')->where(['username' => 'mumu'])->get();
+        print_r($user);
+        echo '<br>';
+        print_r($user_1);die;
         // 解析url
         print_r($_SERVER['REQUEST_URI']);die;
     }

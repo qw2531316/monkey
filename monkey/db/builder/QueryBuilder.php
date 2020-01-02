@@ -368,6 +368,7 @@ class QueryBuilder
      */
     public function get()
     {
+        $this->sequence[] = 'select';
         return $this->createCommand($this->createSQL($this->querySequence), $this->params, function ($pdo) {
             return $this->getConnect()->getAll($pdo);
         });
@@ -388,6 +389,7 @@ class QueryBuilder
      */
     public function getOne()
     {
+        $this->sequence[] = 'select';
         return $this->createCommand($this->createSQL($this->querySequence), $this->params, function ($pdo) {
             return $this->getConnect()->getOne($pdo);
         });
