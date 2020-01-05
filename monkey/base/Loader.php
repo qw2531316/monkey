@@ -22,8 +22,6 @@ class Loader
      */
     public static function autoLoad($class)
     {
-        print_r($class);
-        echo '<br>';
         if(isset(Monkey::$classes[$class])){
             $file = Monkey::$classes[$class];
         }else {

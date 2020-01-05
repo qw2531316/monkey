@@ -44,12 +44,6 @@ class Container extends Component
     private $_dependency = [];
 
     /**
-     * 组件ID
-     * @var string
-     */
-    private $componentID = '';
-
-    /**
      * 返回请求类的实例
      * @param string $className 类名
      * @param array $params 构造器参数，应按顺序提供
@@ -170,6 +164,7 @@ class Container extends Component
      */
     public function analysisDependency(string $className)
     {
+        // 已缓存依赖
         if(isset($this->_reflection[$className])){
             return [$this->_reflection[$className],$this->_dependency[$className]];
         }
@@ -190,8 +185,7 @@ class Container extends Component
                     $dependency[] = $parameter->getDefaultValue();
                 }else{
                     // 注册类名依赖
-                    $this->componentID = $parameter->getName();
-                    $dependency[] = ['componentID' => $parameter->getName()];
+                    $dependency[] = ['id' => $parameter->getName()];
                 }
             }
         }
@@ -210,10 +204,10 @@ class Container extends Component
     public function dealDependency(array $dependency)
     {
         foreach($dependency as $key => $value){
-            if(!empty($value['componentID'])){
-                $dependency[$key] = $this->get($value['componentID']);
+            if(!empty($value['id'])){
+                $dependency[$key] = $this->get($value['id']);
             }else{
-                throw new \Exception('实例化缺少参数：【' . $value['componentID'] . '】');
+                throw new \Exception('实例化缺少参数：【' . $value['id'] . '】');
             }
         }
         return $dependency;
