@@ -7,37 +7,30 @@
  * Use : 自动加载
  */
 
-namespace monkey;
+namespace monkey\base;
+
+use Monkey;
+use monkey\log\Log;
 
 class Loader
 {
-    private static $_instance = null;
-
-    private $loadMap = [];
-
-    private function __construct(array $map)
-    {
-        $this->loadMap = $map;
-        spl_autoload_register([$this,'autoLoad']);
-    }
-
-    public static function getInstance($map)
-    {
-        if(is_null(self::$_instance) || !self::$_instance instanceof Loader){
-            self::$_instance = new Loader($map);
-        }
-        return self::$_instance;
-    }
+    private function __construct(){}
 
     /**
      * 自动加载
      * @param $class string 类名
      */
-    private function autoLoad($class)
+    public static function autoLoad($class)
     {
-        $file = $this->findFile($class);
+        print_r($class);
+        echo '<br>';
+        if(isset(Monkey::$classes[$class])){
+            $file = Monkey::$classes[$class];
+        }else {
+            $file = self::findFile($class);
+        }
         if(file_exists($file)){
-            $this->loadFile($file);
+            self::loadFile($file);
         }
     }
 
@@ -46,14 +39,14 @@ class Loader
      * @param $class string 类名
      * @return string 文件路径
      */
-    private function findFile($class)
+    private static function findFile($class)
     {
         // 顶级命名空间
         $firstName = substr($class,0,strpos($class,'\\'));
         // 文件根目录
-        $fileBasePath = $this->loadMap[$firstName];
+        $fileBasePath = Monkey::$classes[$firstName];
         if(empty($fileBasePath)){
-            Monkey::$app->log->error($class . " namespace is wrong");
+            Log::error($class . " namespace is wrong");
         }
         // 文件相对路径
         $filePath = substr($class,strlen($firstName)) . '.php';
@@ -67,7 +60,7 @@ class Loader
      * 包含文件
      * @param $file string 文件路径
      */
-    private function loadFile($file)
+    private static function loadFile($file)
     {
         include_once $file;
     }

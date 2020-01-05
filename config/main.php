@@ -11,32 +11,26 @@ $param = require (ROOT_PATH . 'config/param.php');
 $db = require (ROOT_PATH . 'config/db.php');
 
 return [
-    // 调试
-    'debug' => 'true',
-
-    'log' => [
-        'BasePath' => [
-            'info' => 'runtime/info',
-            'warning' => 'runtime/warning',
-            'error' => 'runtime/error',
-        ]
-    ],
-
-    'namespaceMap' => [
-        'monkey' => ROOT_PATH . 'monkey',
-        'controller' => ROOT_PATH . 'controller',
-        'model' => ROOT_PATH . 'model',
-    ],
-
-    'urlMap' => [
-        'enableManagerUrl' => true,
-        'suffix' => '.html',
-        'showScriptName' => false,
-        'rules' => [
-            '/' => 'site/index',
+    'components' => [
+        'Log' => [
+            'class' => 'monkey\log\Log',
+            'BasePath' => [
+                'info' => 'runtime/info',
+                'warning' => 'runtime/warning',
+                'error' => 'runtime/error',
+            ]
         ],
-    ],
 
+        'UrlManager' => [
+            'class' => 'monkey\url\UrlManager',
+            'enableManagerUrl' => true,
+            'suffix' => '.html',
+            'showScriptName' => false,
+            'rules' => [
+                '/' => 'site/index',
+            ],
+        ],
+        'DBQuery' => $db,
+    ],
     'params' => $param,
-    'db' => $db,
 ];

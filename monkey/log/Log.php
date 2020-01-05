@@ -9,8 +9,9 @@
 
 namespace monkey\log;
 
+use monkey\base\Component;
 
-class Log implements LogInterface
+class Log extends Component implements LogInterface
 {
     use LogBuilder;
 
@@ -18,8 +19,6 @@ class Log implements LogInterface
      * @var Log
      */
     private static $instance;
-
-    private function __construct(){}
 
     /**
      * 单例
@@ -39,43 +38,50 @@ class Log implements LogInterface
     /**
      * 记录日志
      * @param string $content
-     * @param string $levelType
      * @return void
      */
-    public function info(string $content,string $levelType = LogInterface::INFO_TYPE)
+    public static function info(string $content)
     {
-        self::writeLog($content,$levelType);
+        self::write($content,LogInterface::INFO_TYPE);
     }
 
     /**
      * 记录警告错误等级日志
      * @param string $content
-     * @param string $levelType
      * @return void
      */
-    public function warning(string $content,string $levelType = LogInterface::WARNING_TYPE)
+    public static function warning(string $content)
     {
-        self::writeLog($content,$levelType);
+        self::write($content,LogInterface::WARNING_TYPE);
     }
 
     /**
      * 记录致命错误日志
      * @param string $content
-     * @param string $levelType
      * @return void
      */
-    public function error(string $content,string $levelType = LogInterface::ERROR_TYPE)
+    public static function error(string $content)
     {
-        self::writeLog($content,$levelType);
+        self::write($content,LogInterface::ERROR_TYPE);
     }
 
     /**
      * 记录SQL执行语句
      * @param string $content
-     * @param string $levelType
      * @return void
      */
-    public function sqlLog(string $content, string $levelType = LogInterface::SQL_TYPE)
+    public static function sqlLog(string $content)
+    {
+        self::write($content,LogInterface::SQL_TYPE);
+    }
+
+    /**
+     * 记录日志
+     * @param string $content
+     * @param string $levelType
+     * @return mixed|void
+     */
+    public static function write(string $content, string $levelType)
     {
         self::writeLog($content,$levelType);
     }

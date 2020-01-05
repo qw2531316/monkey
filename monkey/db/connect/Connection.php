@@ -9,9 +9,10 @@
 
 namespace monkey\db\connect;
 
+use Monkey;
+use monkey\log\Log;
 use PDO;
 use PDOStatement;
-use monkey\Monkey;
 
 class Connection implements ConnectionInterface
 {
@@ -42,7 +43,7 @@ class Connection implements ConnectionInterface
             $pdo = new PDO($dns,$username,$password);
             $this->pdo = $pdo;
         }catch (\PDOException $e){
-            Monkey::$app->log->error($e->getMessage());
+            Log::error($e->getMessage());
             throw new \Exception("数据库加载异常！");
         }
         return $this;
@@ -135,7 +136,7 @@ class Connection implements ConnectionInterface
             //$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $result = $pdo->execute();
         }catch(\Exception $e){
-            Monkey::$app->log->error($e->getMessage());
+            Log::sqlLog($e->getMessage());
             return false;
         }
         return $result;

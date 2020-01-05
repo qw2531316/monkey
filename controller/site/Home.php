@@ -14,6 +14,6 @@ class Home
 {
     public function actionIndex()
     {
-        echo 1;die;
+        echo 'say hello';
     }
 }

@@ -7,13 +7,16 @@
  * Use : 入口文件
  */
 
-defined('MONKEY_DEBUG') or define('MONKEY_DEBUG',true) ;
+defined('MONKEY_DEBUG') or define('MONKEY_DEBUG',true);
 define('ROOT_PATH',__DIR__ . DIRECTORY_SEPARATOR );
+error_reporting(-1);
 
-require(ROOT_PATH . 'monkey/Loader.php');
+// 自动加载
+require(ROOT_PATH . 'monkey/base/Loader.php');
 require(ROOT_PATH . 'monkey/Monkey.php');
+require(ROOT_PATH . 'monkey/web/Application.php');
 
 $config = require (ROOT_PATH . 'config/main.php');
 
-$monkey = new \monkey\Monkey($config);
+$monkey = new \monkey\web\Application($config);
 $monkey->run();

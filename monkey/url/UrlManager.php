@@ -16,7 +16,7 @@ class UrlManager
     // 是否管理url，默认false
     public $enableManagerUrl = false;
 
-    // 保存路由规则
+    // 路由规则
     public $rules = [];
 
     // 路由后缀，仅 $enableManagerUrl = true 时生效
@@ -32,14 +32,6 @@ class UrlManager
     private function __construct(array $config)
     {
         $this->init($config);
-    }
-
-    public static function getInstance(array $config)
-    {
-        if(is_null(self::$instance) || !self::$instance instanceof UrlManager){
-            self::$instance = new UrlManager($config);
-        }
-        return self::$instance;
     }
 
     /**

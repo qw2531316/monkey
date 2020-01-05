@@ -9,7 +9,8 @@
 
 namespace monkey\db;
 
-use monkey\Monkey;
+use Monkey;
+use monkey\log\Log;
 use monkey\db\common\LoadDbConfig;
 use monkey\db\connect\ConnectionInterface;
 use monkey\db\connect\Connection;
@@ -29,7 +30,11 @@ class DbQuery
      */
     private static $builder;
 
-    private function __construct(){}
+    public function __construct(){
+
+    }
+
+    private function __clone(){}
 
     /**
      * 单例
@@ -43,7 +48,7 @@ class DbQuery
                 self::config($config);
                 self::$builder = new QueryBuilder(self::getQuery());
             } catch (\Exception $e) {
-                Monkey::$app->log->error($e->getMessage());
+                Log::error($e->getMessage());
             }
         }
         return self::$builder;
@@ -60,7 +65,7 @@ class DbQuery
             $config = self::getConfig();
             if(empty($config)){
                 $message = "数据库配置文件获取失败";
-                Monkey::$app->log->error($message);
+                Log::error($message);
                 throw new \Exception($message);
             }
             self::$connect = self::createQuery($config);
@@ -78,14 +83,5 @@ class DbQuery
     {
         $connection = new Connection();
         return $connection->setPdo($config);
-    }
-
-    /**
-     * 获取数据库加载容器
-     * @return QueryBuilder
-     */
-    private static function getBuilder()
-    {
-        return new QueryBuilder(self::$connect);
     }
 }

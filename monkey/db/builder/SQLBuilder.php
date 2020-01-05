@@ -124,11 +124,15 @@ trait SQLBuilder
 
     private function createSelect()
     {
-        $columns = explode(',',$this->columns);
-        foreach ($columns as &$column){
-            $column = $this->dealColumns($column);
+        if(empty($this->columns)){
+            $columns = '*';
+        }else {
+            $columns = explode(',', $this->columns);
+            foreach ($columns as &$column) {
+                $column = $this->dealColumns($column);
+            }
+            $columns = implode(',', $columns);
         }
-        $columns = implode(',',$columns);
         $sql = 'SELECT ' . $columns . ' FROM ' . $this->table;
         return $sql;
     }
@@ -204,7 +208,7 @@ trait SQLBuilder
                 $this->params[":$key"] = $value;
             }
         }
-        $link = empty($this->wheres) ? '' : strtoupper($link) . ' ';
+        $link = empty($this->wheres) ? '' : ' ' . strtoupper($link) . ' ';
         $where = $link . '(' . implode(' AND ',$where) . ')';
         return $where;
     }

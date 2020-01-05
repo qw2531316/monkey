@@ -12,7 +12,7 @@ namespace monkey\log;
 
 interface LogInterface
 {
-    // 错误等级
+    // 日志等级
     const INFO_TYPE = 'info';
     const WARNING_TYPE = 'warning';
     const ERROR_TYPE = 'error';
@@ -21,32 +21,36 @@ interface LogInterface
     /**
      * 记录日志
      * @param string $content
-     * @param string $levelType
      * @return void
      */
-    public function info(string $content,string $levelType = LogInterface::INFO_TYPE);
+    public static function info(string $content);
 
     /**
      * 记录警告错误等级日志
      * @param string $content
-     * @param string $levelType
      * @return void
      */
-    public function warning(string $content,string $levelType = LogInterface::WARNING_TYPE);
+    public static function warning(string $content);
 
     /**
      * 记录致命错误日志
      * @param string $content
-     * @param string $levelType
      * @return void
      */
-    public function error(string $content,string $levelType = LogInterface::ERROR_TYPE);
+    public static function error(string $content);
 
     /**
      * 记录SQL执行语句
      * @param string $content
-     * @param string $levelType
      * @return void
      */
-    public function sqlLog(string $content,string $levelType = LogInterface::SQL_TYPE);
+    public static function sqlLog(string $content);
+
+    /**
+     * 记录日志
+     * @param string $content
+     * @param string $levelType
+     * @return mixed
+     */
+    public static function write(string $content,string $levelType);
 }

@@ -9,8 +9,8 @@
 
 namespace monkey\db\builder;
 
+use Monkey;
 use monkey\db\connect\ConnectionInterface;
-use monkey\Monkey;
 
 class QueryBuilder
 {
@@ -88,7 +88,7 @@ class QueryBuilder
      */
     private function getPrefix()
     {
-        $prefix = Monkey::$app->dbConfig['db']['prefix'] ?: '';
+        $prefix = 'monkey_' ?: '';
         return $prefix;
     }
 
@@ -104,6 +104,7 @@ class QueryBuilder
     private function createSQL($sequence = [])
     {
         if (empty($this->sql)) {
+            $this->sequence = array_unique($this->sequence);
             $sequence = array_intersect($sequence,$this->sequence);
             foreach ($sequence as $value) {
                 $this->sql .= trim($this->{'create' . ucfirst($value)}()) . ' ';
@@ -483,6 +484,7 @@ class QueryBuilder
      */
     private function createCommand(string $sql,array $params,\Closure $closure)
     {
+        $this->sql = '';
         return $closure(
             // 执行SQL
             $this->getConnect()->executeSqlReturnStatement($sql,$params)
