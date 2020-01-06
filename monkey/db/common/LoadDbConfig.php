@@ -69,7 +69,7 @@ trait LoadDbConfig
             'debug' => $config['debug'] ?: '',
         ];
         $needKeys = self::getNeedKeys();
-        $dbConfig = $config['db'];
+        $dbConfig = $config['db_' . MONKEY_ENVIRONMENT];
         foreach ($needKeys as $key => $value){
             if($key != 'dns' && empty($dbConfig[$key])){
                 throw new \Exception("配置字段 `$key` 为空");

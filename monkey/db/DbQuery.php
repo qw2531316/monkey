@@ -10,67 +10,52 @@
 namespace monkey\db;
 
 use Monkey;
+use monkey\base\Component;
 use monkey\log\Log;
 use monkey\db\common\LoadDbConfig;
 use monkey\db\connect\ConnectionInterface;
 use monkey\db\connect\Connection;
 use monkey\db\builder\QueryBuilder;
 
-class DbQuery
+class DbQuery extends Component
 {
     use LoadDbConfig;
 
     /**
      * @var ConnectionInterface
      */
-    private static $connect;
+    private $connect;
 
     /**
      * @var QueryBuilder
      */
-    private static $builder;
+    private $builder;
 
-    public function __construct(){
-
+    public function __construct(array $config){
+        self::config($config);
+        $this->builder = new QueryBuilder($this->getQuery());
+        parent::__construct($config);
     }
 
     private function __clone(){}
-
-    /**
-     * 单例
-     * @param array $config
-     * @return QueryBuilder
-     */
-    public static function getInstance(array $config)
-    {
-        if(is_null(self::$builder) || !self::$builder instanceof QueryBuilder){
-            try {
-                self::config($config);
-                self::$builder = new QueryBuilder(self::getQuery());
-            } catch (\Exception $e) {
-                Log::error($e->getMessage());
-            }
-        }
-        return self::$builder;
-    }
 
     /**
      * 获取数据库实例
      * @return ConnectionInterface
      * @throws \Exception
      */
-    private static function getQuery()
+    private function getQuery()
     {
-        if(is_null(self::$connect) || !self::$connect instanceof ConnectionInterface){
+        if(is_null($this->connect) || !$this->connect instanceof ConnectionInterface){
             $config = self::getConfig();
             if(empty($config)){
                 $message = "数据库配置文件获取失败";
                 Log::error($message);
                 throw new \Exception($message);
             }
-            self::$connect = self::createQuery($config);
+            $this->connect = self::createQuery($config);
         }
-        return self::$connect;
+        return $this->connect;
     }
 
     /**
@@ -83,5 +68,18 @@ class DbQuery
     {
         $connection = new Connection();
         return $connection->setPdo($config);
+    }
+
+    /**
+     * 设置表名
+     * @param string $table
+     * @param string $alias
+     * @return QueryBuilder
+     */
+    public function table(string $table,string $alias = '')
+    {
+        $this->builder->table = trim($table);
+        $this->builder->alias = trim($alias);
+        return $this->builder;
     }
 }

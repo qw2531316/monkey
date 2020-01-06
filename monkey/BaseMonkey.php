@@ -18,7 +18,7 @@ class BaseMonkey
 {
     /**
      * 应用
-     * @var Application
+     * @var Application|\monkey\web\Application
      */
     public static $app;
 

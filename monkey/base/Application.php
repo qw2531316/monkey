@@ -10,8 +10,15 @@
 namespace monkey\base;
 
 use Monkey;
-use monkey\di\ServiceLocator;
 
+/**
+ * 应用程序基类
+ *
+ * @property monkey\log\Log $Log
+ * @property monkey\db\DbQuery $db
+ *
+ * @package monkey\base
+ */
 abstract class Application extends Module
 {
     /**
@@ -30,23 +37,9 @@ abstract class Application extends Module
 
     public function run()
     {
-        $service = new ServiceLocator();
-        $service->set('db',[
-            'class' => 'monkey\db\builder\QueryBuilder',
-            'db_test' => [
-                'dns' => 'mysql:host=127.0.0.1;port=3306;dbname=monkey',
-                'host' => '127.0.0.1',
-                'port' => 3306,
-                'dbName' => 'monkey',
-                'username' => 'root',
-                'password' => 'root',
-                'prefix' => 'monkey_',
-            ],
-        ]);
-
         echo '<pre>';
-        print_r($service->db);
-        print_r(Monkey::$app);
+        Monkey::$app->Log->info('test DI/Service Locator');
+        print_r(Monkey::$app->db->table('user')->where(['username' => 'monkey'])->getOne());
         die;
     }
 }

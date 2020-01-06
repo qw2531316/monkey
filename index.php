@@ -7,6 +7,7 @@
  * Use : 入口文件
  */
 
+defined('MONKEY_ENVIRONMENT') or define('MONKEY_ENVIRONMENT','test');
 defined('MONKEY_DEBUG') or define('MONKEY_DEBUG',true);
 define('ROOT_PATH',__DIR__ . DIRECTORY_SEPARATOR );
 error_reporting(-1);

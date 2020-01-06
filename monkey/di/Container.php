@@ -169,10 +169,10 @@ class Container extends Component
             return [$this->_reflection[$className],$this->_dependency[$className]];
         }
         $dependency = [];
-        try{
+        try {
             // 获取 $className 相关信息
             $reflection = new \ReflectionClass($className);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception('实例化类失败：【' . $className . '】');
         }
         // 反射类的构造器
@@ -185,7 +185,8 @@ class Container extends Component
                     $dependency[] = $parameter->getDefaultValue();
                 }else{
                     // 注册类名依赖
-                    $dependency[] = ['id' => empty($parameter->getClass()) ? $parameter->getName() : $parameter->getClass()];
+                    $class = $parameter->getClass();
+                    $dependency[] = ['id' => $class === null ? null : $class->getName()];
                 }
             }
         }
@@ -198,15 +199,16 @@ class Container extends Component
     /**
      * 处理已注册的依赖
      * @param array $dependency
+     * @param bool  $throw 是否抛出异常
      * @return array
      * @throws \Exception
      */
-    public function dealDependency(array $dependency)
+    public function dealDependency(array $dependency,$throw = false)
     {
-        foreach($dependency as $key => $value){
-            if(!empty($value['id'])){
+        foreach ($dependency as $key => $value) {
+            if (!empty($value['id'])) {
                 $dependency[$key] = $this->get($value['id']);
-            }else{
+            } else if($throw){
                 throw new \Exception('实例化缺少参数：【' . $value['id'] . '】');
             }
         }
@@ -228,13 +230,13 @@ class Container extends Component
          * @var \ReflectionClass $reflection
          */
         list($reflection,$dependency) = $this->analysisDependency($className);
-        // 是否可实例化
-        if(!$reflection->isInstantiable()){
-            throw new \Exception('类【' . $reflection->name . '】不可实例化');
-        }
 
         foreach($params as $key => $value){
             $dependency[$key] = $value;
+        }
+        // 是否可实例化
+        if(!$reflection->isInstantiable()){
+            throw new \Exception('类【' . $reflection->name . '】不可实例化');
         }
 
         $dependency = $this->dealDependency($dependency);

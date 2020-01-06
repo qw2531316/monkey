@@ -23,6 +23,18 @@ class QueryBuilder
     protected $connect;
 
     /**
+     * 表名
+     * @var string
+     */
+    public $table;
+
+    /**
+     * 表名别名
+     * @var string
+     */
+    public $alias = '';
+
+    /**
      * SQL语句
      * @var string
      */
@@ -69,7 +81,7 @@ class QueryBuilder
      * @param string $alias
      * @return $this
      */
-    public function table(string $table,string $alias = '')
+    protected function table(string $table,string $alias = '')
     {
         $prefix = $this->getPrefix();
         if(!empty($alias)) {
@@ -78,7 +90,7 @@ class QueryBuilder
                 $alias = '';
             }
         }
-        $this->table = trim($prefix . $table . ' ' . $alias);
+        $this->realTable = trim($prefix . $table . ' ' . $alias);
         return $this;
     }
 
@@ -104,6 +116,8 @@ class QueryBuilder
     private function createSQL($sequence = [])
     {
         if (empty($this->sql)) {
+            // 设置表名
+            $this->table($this->table,$this->alias);
             $this->sequence = array_unique($this->sequence);
             $sequence = array_intersect($sequence,$this->sequence);
             foreach ($sequence as $value) {

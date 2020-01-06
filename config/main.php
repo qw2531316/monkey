@@ -30,7 +30,7 @@ return [
                 '/' => 'site/index',
             ],
         ],
-        'DBQuery' => $db,
+        'db' => $db,
     ],
     'params' => $param,
 ];

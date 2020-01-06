@@ -48,7 +48,7 @@ trait SQLBuilder
      * 主表表名
      * @var string
      */
-    protected $table;
+    protected $realTable;
 
     /**
      * 表前缀
@@ -133,7 +133,7 @@ trait SQLBuilder
             }
             $columns = implode(',', $columns);
         }
-        $sql = 'SELECT ' . $columns . ' FROM ' . $this->table;
+        $sql = 'SELECT ' . $columns . ' FROM ' . $this->realTable;
         return $sql;
     }
 

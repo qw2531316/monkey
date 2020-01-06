@@ -15,24 +15,11 @@ class Log extends Component implements LogInterface
 {
     use LogBuilder;
 
-    /**
-     * @var Log
-     */
-    private static $instance;
-
-    /**
-     * 单例
-     * @param array $config
-     * @return Log
-     */
-    public static function getInstance(array $config)
+    public function __construct(array $config)
     {
-        if(is_null(self::$instance) || !self::$instance instanceof Log){
-            self::$instance = new Log();
-            // 加载配置
-            self::config($config);
-        }
-        return self::$instance;
+        // 加载配置
+        self::config($config);
+        parent::__construct($config);
     }
 
     /**

@@ -42,7 +42,7 @@ class Loader
         // 顶级命名空间
         $firstName = substr($class,0,strpos($class,'\\'));
         // 文件根目录
-        $fileBasePath = Monkey::$classes[$firstName];
+        $fileBasePath = ROOT_PATH . $firstName;
         if(empty($fileBasePath)){
             Log::error($class . " namespace is wrong");
         }
