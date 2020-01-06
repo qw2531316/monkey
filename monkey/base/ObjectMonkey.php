@@ -107,7 +107,7 @@ class ObjectMonkey
     }
 
     /**
-     * 是否可以设置属性
+     * 是否可以获取属性
      * @param $name
      * @param bool   $check 是否将成员变量视为属性
      * @return bool

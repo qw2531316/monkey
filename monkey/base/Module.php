@@ -24,10 +24,6 @@ class Module extends ServiceLocator
 
     public static function setInstance(Module $instance)
     {
-        if($instance === null){
-            unset(Monkey::$app->loadedModules[get_called_class()]);
-        }else{
-            Monkey::$app->loadedModules[get_class($instance)] = $instance;
-        }
+        Monkey::$app->loadedModules[get_class($instance)] = $instance;
     }
 }

@@ -14,7 +14,7 @@ use Monkey;
 /**
  * 应用程序基类
  *
- * @property monkey\log\Log $Log
+ * @property monkey\log\Log $log
  * @property monkey\db\DbQuery $db
  *
  * @package monkey\base
@@ -30,7 +30,8 @@ abstract class Application extends Module
     public function __construct(array $config)
     {
         Monkey::$app = $this;
-        static::setInstance($this);
+        Monkey::$app->loadedModules[get_class($this)] = $this;
+        //static::setInstance($this);
 
         Component::__construct($config);
     }
@@ -38,7 +39,7 @@ abstract class Application extends Module
     public function run()
     {
         echo '<pre>';
-        Monkey::$app->Log->info('test DI/Service Locator');
+        Monkey::$app->log->info('test DI/Service Locator');
         print_r(Monkey::$app->db->table('user')->where(['username' => 'monkey'])->getOne());
         die;
     }
