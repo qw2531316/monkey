@@ -185,7 +185,7 @@ class Container extends Component
                     $dependency[] = $parameter->getDefaultValue();
                 }else{
                     // 注册类名依赖
-                    $dependency[] = ['id' => $parameter->getName()];
+                    $dependency[] = ['id' => empty($parameter->getClass()) ? $parameter->getName() : $parameter->getClass()];
                 }
             }
         }
