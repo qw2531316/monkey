@@ -44,7 +44,7 @@ class Loader
         // 文件根目录
         $fileBasePath = ROOT_PATH . $firstName;
         if(empty($fileBasePath)){
-            Log::error($class . " namespace is wrong");
+            Monkey::$app->log->error($class . " namespace is wrong");
         }
         // 文件相对路径
         $filePath = substr($class,strlen($firstName)) . '.php';

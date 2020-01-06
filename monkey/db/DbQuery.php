@@ -31,6 +31,11 @@ class DbQuery extends Component
      */
     private $builder;
 
+    /**
+     * DbQuery constructor.
+     * @param array $config
+     * @throws \Exception
+     */
     public function __construct(array $config){
         self::config($config);
         $this->builder = new QueryBuilder($this->getQuery());
@@ -50,7 +55,7 @@ class DbQuery extends Component
             $config = self::getConfig();
             if(empty($config)){
                 $message = "数据库配置文件获取失败";
-                Log::error($message);
+                Monkey::$app->log->error($message);
                 throw new \Exception($message);
             }
             $this->connect = self::createQuery($config);
