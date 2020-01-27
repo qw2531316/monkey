@@ -12,7 +12,7 @@ $db = require (ROOT_PATH . 'config/db.php');
 
 return [
     'components' => [
-        'Log' => [
+        'log' => [
             'class' => 'monkey\log\Log',
             'BasePath' => [
                 'info' => 'runtime/info',
@@ -21,13 +21,19 @@ return [
             ]
         ],
 
-        'UrlManager' => [
+        'urlManager' => [
             'class' => 'monkey\url\UrlManager',
             'enableManagerUrl' => true,
             'suffix' => '.html',
-            'showScriptName' => false,
+            'defaultController' => 'controller\site\home',
+            'defaultAction' => 'index',
             'rules' => [
-                '/' => 'site/index',
+                'user' => 'member/user',
+                'test' => 'site/home/index-test',
+                'user/pass' => 'member/user/user-pass',
+                'user-pass' => 'member/user/user-pass',
+                'user/<id:\d+>/<page:\d+>' => 'member/user/test-params',
+                //'user/<username:[a-z]+>' => 'monkey/user/test-username', // 暂不支持 [a-z]+ 参数
             ],
         ],
         'db' => $db,

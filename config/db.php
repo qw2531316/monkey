@@ -26,7 +26,7 @@ return [
         'port' => 3306,
         'dbName' => 'monkey',
         'username' => 'root',
-        'password' => 'root',
+        'password' => 'houhou',
         'prefix' => 'monkey_',
     ],
     'debug' => true,

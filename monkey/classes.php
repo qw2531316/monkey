@@ -30,4 +30,6 @@ return [
     'monkey\log\LogBuilder' => MONKEY_PATH . 'log/LogBuilder.php',
 
     'monkey\url\UrlManager' => MONKEY_PATH . 'url/UrlManager.php',
+    'monkey\url\GenerateRule' => MONKEY_PATH . 'url/GenerateRule.php',
+    'monkey\url\RuleInterface' => MONKEY_PATH . 'url/RuleInterface.php',
 ];

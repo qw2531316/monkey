@@ -10,7 +10,6 @@
 namespace monkey\db\connect;
 
 use Monkey;
-use monkey\log\Log;
 use PDO;
 use PDOStatement;
 

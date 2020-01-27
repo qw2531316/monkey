@@ -18,7 +18,7 @@ class Log extends Component implements LogInterface
     public function __construct(array $config)
     {
         // 加载配置
-        self::config($config);
+        $this->config($config);
         parent::__construct($config);
     }
 
@@ -27,9 +27,9 @@ class Log extends Component implements LogInterface
      * @param string $content
      * @return void
      */
-    public static function info(string $content)
+    public function info(string $content)
     {
-        self::write($content,LogInterface::INFO_TYPE);
+        $this->write($content,LogInterface::INFO_TYPE);
     }
 
     /**
@@ -37,9 +37,9 @@ class Log extends Component implements LogInterface
      * @param string $content
      * @return void
      */
-    public static function warning(string $content)
+    public function warning(string $content)
     {
-        self::write($content,LogInterface::WARNING_TYPE);
+        $this->write($content,LogInterface::WARNING_TYPE);
     }
 
     /**
@@ -47,9 +47,9 @@ class Log extends Component implements LogInterface
      * @param string $content
      * @return void
      */
-    public static function error(string $content)
+    public function error(string $content)
     {
-        self::write($content,LogInterface::ERROR_TYPE);
+        $this->write($content,LogInterface::ERROR_TYPE);
     }
 
     /**
@@ -57,9 +57,9 @@ class Log extends Component implements LogInterface
      * @param string $content
      * @return void
      */
-    public static function sqlLog(string $content)
+    public function sqlLog(string $content)
     {
-        self::write($content,LogInterface::SQL_TYPE);
+        $this->write($content,LogInterface::SQL_TYPE);
     }
 
     /**
@@ -68,8 +68,8 @@ class Log extends Component implements LogInterface
      * @param string $levelType
      * @return mixed|void
      */
-    public static function write(string $content, string $levelType)
+    public function write(string $content, string $levelType)
     {
-        self::writeLog($content,$levelType);
+        $this->writeLog($content,$levelType);
     }
 }

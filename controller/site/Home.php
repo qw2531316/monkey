@@ -16,4 +16,9 @@ class Home
     {
         echo 'say hello';
     }
+
+    public function actionIndexTest()
+    {
+        echo 'say test';
+    }
 }

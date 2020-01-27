@@ -15,37 +15,37 @@ trait LogBuilder
      * 日志配置容器
      * @var array
      */
-    protected static $config = [];
+    protected $config = [];
 
     /**
      * 日志文件绝对路径
      * @var string
      */
-    protected static $absolutelyPath = '';
+    protected $absolutelyPath = '';
 
     /**
      * 日志文件类型
      * @var string
      */
-    protected static $levelType = 'info';
+    protected $levelType = 'info';
 
     /**
      * 解析日志配置
      * @param array $config
      */
-    public static function config(array $config)
+    public function config(array $config)
     {
         if(empty($config) || empty($config['BasePath'])){
             return;
         }
-        self::$config = $config;
+        $this->config = $config;
     }
 
     /**
      * 创建日志文件绝对路径
      * @param string $relativePath  日志文件相对路径
      */
-    private static function buildPath(string $relativePath)
+    private function buildPath(string $relativePath)
     {
         // 绝对路径
         $absolutelyPath = ROOT_PATH . $relativePath . DIRECTORY_SEPARATOR . date('Ymd');
@@ -53,7 +53,7 @@ trait LogBuilder
         if(!is_dir($absolutelyPath)){
             mkdir($absolutelyPath, 0755, true);
         }
-        self::$absolutelyPath = $absolutelyPath;
+        $this->absolutelyPath = $absolutelyPath;
     }
 
     /**
@@ -87,18 +87,18 @@ trait LogBuilder
      * @param string $content
      * @param string $levelType
      */
-    private static function writeLog(string $content,string $levelType)
+    private function writeLog(string $content,string $levelType)
     {
-        self::$levelType = $levelType ?: 'info';
+        $this->levelType = $levelType ?: 'info';
         // 配置文件中获取对应相对路径
-        $relativePath = self::$config['BasePath'][self::$levelType];
+        $relativePath = $this->config['BasePath'][$this->levelType];
         // 创建实际路径
-        self::buildPath($relativePath);
+        $this->buildPath($relativePath);
         // 文件绝对路径
-        $filePath = self::$absolutelyPath . DIRECTORY_SEPARATOR . date('YmdH') . '.log';
+        $filePath = $this->absolutelyPath . DIRECTORY_SEPARATOR . date('YmdH') . '.log';
         // 处理日志内容
-        $content = self::buildContent($content,$levelType);
+        $content = $this->buildContent($content,$levelType);
         // 写入日志文件
-        self::buildFile($filePath,$content);
+        $this->buildFile($filePath,$content);
     }
 }
