@@ -26,7 +26,7 @@ class Request extends \monkey\base\Request
     public function resolve()
     {
         // 解析请求
-        Monkey::$app->getUrlManager()->parseRequest($this);
+        return Monkey::$app->getUrlManager()->parseRequest($this);
     }
 
     /**

@@ -11,6 +11,8 @@ namespace monkey\base;
 
 use Monkey;
 use monkey\url\UrlManager;
+use monkey\web\Request;
+use monkey\web\Response;
 
 /**
  * 应用程序基类
@@ -29,6 +31,11 @@ abstract class Application extends Module
      */
     public $loadedModules = [];
 
+    /**
+     * @var string 当前应用的字符集
+     */
+    public $charset = 'UTF-8';
+
     public function __construct(array $config)
     {
         Monkey::$app = $this;
@@ -45,11 +52,26 @@ abstract class Application extends Module
      */
     public function run()
     {
-        // 解析请求
-        Monkey::$app->request->resolve();
-        echo '<pre>';
-        print_r(Monkey::$app->db->table('user')->where(['username' => 'monkey'])->getOne());
-        die;
+        // 解析请求 并 响应内容
+        $response = $this->handleRequest($this->getRequest());
+        $response->send();
+    }
+
+    /**
+     * 处理请求
+     * @param $request Request
+     * @return Response
+     * @throws \Exception
+     */
+    public function handleRequest($request)
+    {
+        $result = $request->resolve();
+        $response = $this->getResponse();
+        if($result !== null){
+            $response->content = $result;
+        }
+
+        return $response;
     }
 
     /**
@@ -63,6 +85,26 @@ abstract class Application extends Module
     }
 
     /**
+     * 获取Request对象
+     * @return callable|object|Request
+     * @throws \Exception
+     */
+    public function getRequest()
+    {
+        return $this->get('request');
+    }
+
+    /**
+     * 获取Response对象
+     * @return callable|object|Response
+     * @throws \Exception
+     */
+    public function getResponse()
+    {
+        return $this->get('response');
+    }
+
+    /**
      * 默认组件
      * @return array
      */
@@ -70,6 +112,7 @@ abstract class Application extends Module
     {
         return [
             'request' => ['class' => '\monkey\web\Request'],
+            'response' => ['class' => '\monkey\web\Response'],
             'rule' => ['class' => '\monkey\url\GenerateRule'],
         ];
     }

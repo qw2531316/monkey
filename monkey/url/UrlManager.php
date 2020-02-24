@@ -56,6 +56,7 @@ class UrlManager extends Component
     /**
      * 解析请求
      * @param Request $request
+     * @return mixed
      * @throws \Exception
      */
     public function parseRequest(Request $request)
@@ -100,7 +101,8 @@ class UrlManager extends Component
             // 创建路径
             list($className,$action) = $this->rule->createUrl($this,$matchRoute);
             $object = Monkey::createObject($className);
-            $object->$action();
+            return $object->$action();
         }
+        return null;
     }
 }

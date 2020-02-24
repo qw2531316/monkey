@@ -22,11 +22,7 @@ class User
 
     public function actionTestParams()
     {
-        echo 'say Test Params<BR>';
-        $id = $_GET['id'];
-        echo 'id:' . $id . '<BR>';
-        $page = $_GET['page'];
-        echo 'page:' . $page . '<BR>';
+        return 'Test Response';
     }
 
     public function actionTestUsername()
