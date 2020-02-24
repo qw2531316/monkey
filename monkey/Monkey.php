@@ -7,7 +7,7 @@
  * Use : 框架功能类
  */
 
-require __DIR__ . '\BaseMonkey.php';
+require __DIR__ . '/BaseMonkey.php';
 
 class Monkey extends \monkey\BaseMonkey
 {

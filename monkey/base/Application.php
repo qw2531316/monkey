@@ -32,6 +32,24 @@ abstract class Application extends Module
     public $loadedModules = [];
 
     /**
+     * 记录响应流程状态
+     * @var string
+     */
+    private $state;
+
+    /**
+     * 开始发送响应
+     */
+    const STATE_BEGIN = 0;
+    /**
+     * 发送响应中
+     */
+    const STATE_SENDING_RESPONSE = 1;
+    /**
+     * 响应结束状态
+     */
+    const STATE_END = 2;
+    /**
      * @var string 当前应用的字符集
      */
     public $charset = 'UTF-8';
@@ -47,14 +65,21 @@ abstract class Application extends Module
         Component::__construct($config);
     }
 
-    /**
-     * @throws \Exception
-     */
     public function run()
     {
-        // 解析请求 并 响应内容
-        $response = $this->handleRequest($this->getRequest());
-        $response->send();
+        try{
+            // 解析请求 并 响应内容
+            $this->state = self::STATE_BEGIN;
+            $response = $this->handleRequest($this->getRequest());
+            $this->state = self::STATE_SENDING_RESPONSE;
+            $response->send();
+            $this->state = self::STATE_END;
+
+            return $response->getStatusCode();
+        }catch (\Exception $e){
+            Monkey::$app->log->error('响应失败【' . $e->getMessage() . '】');
+            return 0;
+        }
     }
 
     /**
