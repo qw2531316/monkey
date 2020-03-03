@@ -177,6 +177,5 @@ class Response extends \monkey\base\Response
         $this->sendHeaders();
         $this->sendContent();
         $this->isSend = true;
-        exit;
     }
 }

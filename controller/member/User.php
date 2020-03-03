@@ -8,6 +8,8 @@
 
 namespace controller\member;
 
+use Monkey;
+
 class User
 {
     public function actionIndex()
@@ -22,6 +24,7 @@ class User
 
     public function actionTestParams()
     {
+        $id = Monkey::$app->request->get('id');
         return 'Test Response';
     }
 

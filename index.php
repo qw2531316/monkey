@@ -20,4 +20,5 @@ require(ROOT_PATH . 'monkey/web/Application.php');
 $config = require (ROOT_PATH . 'config/main.php');
 
 $monkey = new \monkey\web\Application($config);
-$monkey->run();
+$statusCode = $monkey->run();
+exit($statusCode);

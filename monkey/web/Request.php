@@ -133,4 +133,101 @@ class Request extends \monkey\base\Request
         }
         return $this->_baseUrl;
     }
+
+    /**
+     * 保存request数据
+     * @var array
+     */
+    private $params;
+    /**
+     * request方式
+     * @var string
+     */
+    private $method;
+    /**
+     * Request数据
+     * @var array
+     */
+    private $serverMethod;
+
+    /**
+     * 获取所有Request数据
+     * @return array
+     */
+    public function getParams()
+    {
+        if($this->method === null){
+            $this->method = $_SERVER['REQUEST_METHOD'];
+        }
+        switch (strtoupper($this->method)){
+            case 'GET':
+                $this->serverMethod = $_GET;
+                break;
+            case 'POST':
+                $this->serverMethod = $_GET;
+                break;
+        }
+        if($this->params[$this->method] === null){
+            $this->params[$this->method] = $this->serverMethod;
+        }
+        return $this->params[$this->method];
+    }
+
+    /**
+     * 设置Request数据
+     * @param array $value
+     */
+    public function setParams(array $value)
+    {
+        $this->params[$this->method] = $value;
+    }
+
+    /**
+     * 获取单个Request数据
+     * @param string|null $name
+     * @param null $defaultValue
+     * @return mixed
+     */
+    public function getParam(string $name = null,$defaultValue = null)
+    {
+        $params = $this->getParams();
+        if(is_object($params)){
+            try{
+                return $params->{$name};
+            }catch (\Exception $e){
+                return $defaultValue;
+            }
+        }
+        return $params[$name] ?: $defaultValue;
+    }
+
+    /**
+     * post数据
+     * @param string|null $name
+     * @param null $defaultValue
+     * @return array|mixed
+     */
+    public function post(string $name = null,$defaultValue = null)
+    {
+        $this->method = 'POST';
+        if($name === null){
+            return $this->getParams();
+        }
+        return $this->getParam($name,$defaultValue);
+    }
+
+    /**
+     * get数据
+     * @param string|null $name
+     * @param null $defaultValue
+     * @return array|mixed
+     */
+    public function get(string $name = null,$defaultValue = null)
+    {
+        $this->method = 'GET';
+        if($name === null){
+            return $this->getParams();
+        }
+        return $this->getParam($name,$defaultValue);
+    }
 }
