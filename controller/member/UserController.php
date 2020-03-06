@@ -9,12 +9,13 @@
 namespace controller\member;
 
 use Monkey;
+use monkey\web\Controller;
 
-class User
+class UserController extends Controller
 {
     public function actionIndex()
     {
-        echo 'say User Action';
+        return $this->view('user/index',['user' => 'monkey']);
     }
 
     public function actionUserPass()

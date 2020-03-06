@@ -102,7 +102,7 @@ class Request extends \monkey\base\Request
             }
             return $uri;
         }
-        Monkey::$app->log->error('无法确认请求 Uri');
+        Monkey::error('无法确认请求 Uri');
         throw new \Exception('无法确认请求 Uri');
     }
 
@@ -164,7 +164,7 @@ class Request extends \monkey\base\Request
                 $this->serverMethod = $_GET;
                 break;
             case 'POST':
-                $this->serverMethod = $_GET;
+                $this->serverMethod = $_POST;
                 break;
         }
         if($this->params[$this->method] === null){

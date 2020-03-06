@@ -55,7 +55,6 @@ class GenerateRule extends ObjectMonkey implements RuleInterface
             $action = $manager->defaultAction;
         }
 
-
-        return [$classPath , 'action' . ucfirst($action)];
+        return [$classPath . 'Controller' , 'action' . ucfirst($action)];
     }
 }

@@ -11,6 +11,7 @@ namespace monkey;
 use monkey\base\Application;
 use monkey\base\ObjectMonkey;
 use monkey\di\Container;
+use monkey\log\LogInterface;
 
 defined('MONKEY_PATH') or define('MONKEY_PATH',__DIR__ . DIRECTORY_SEPARATOR);
 
@@ -34,6 +35,15 @@ class BaseMonkey
      */
     public static $classes = [];
 
+    /**
+     * @var array 应用组件配置
+     */
+    private static $config;
+    /**
+     * @var array 应用参数配置
+     */
+    private static $paramsConfig;
+
 
     /**
      * 配置属性对象
@@ -43,10 +53,32 @@ class BaseMonkey
      */
     public static function config(ObjectMonkey $object,array $config)
     {
+        if(self::$config === null){
+            self::$config = $config['components'];
+        }
+        if(self::$paramsConfig === null){
+            self::$paramsConfig = $config['params'];
+        }
         foreach ($config as $name => $value){
             $object->$name = $value;
         }
         return $object;
+    }
+
+    public static function getConfig(string $key = null)
+    {
+        if($key === null){
+            return self::$config;
+        }
+        return self::$config[$key];
+    }
+
+    public static function getParamsConfig(string $key = null)
+    {
+        if($key === null){
+            return self::$paramsConfig;
+        }
+        return self::$paramsConfig[$key];
     }
 
     /**
@@ -72,5 +104,54 @@ class BaseMonkey
             throw new \Exception("组件配置必须包含 【class】 元素");
         }
         throw new \Exception("未知的组件配置【" . gettype($mixed) . "】");
+    }
+
+    // ----- 日志 begin
+    /**
+     * @var LogInterface
+     */
+    private static $log;
+    /**
+     * @return LogInterface
+     */
+    public static function getLog()
+    {
+        if(self::$log === null){
+            self::$log = self::createObject('monkey\log\Log',self::$config['log']);
+        }
+        return self::$log;
+    }
+
+    public static function write(string $content, string $level)
+    {
+        static::getLog()->write($content,$level);
+    }
+
+    public static function error(string $content)
+    {
+        static::getLog()->error($content);
+    }
+
+    public static function info(string $content)
+    {
+        static::getLog()->info($content);
+    }
+
+    public static function sqlLog(string $content)
+    {
+        static::getLog()->sqlLog($content);
+    }
+
+    public static function warning(string $content){
+        static::getLog()->warning($content);
+    }
+    // ---- 日志 end
+
+    /**
+     * @return string 返回应用根目录
+     */
+    public static function getBasePath()
+    {
+        return ROOT_PATH;
     }
 }

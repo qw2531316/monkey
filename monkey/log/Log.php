@@ -18,7 +18,7 @@ class Log extends Component implements LogInterface
     public function __construct(array $config)
     {
         // 加载配置
-        $this->config($config);
+        $this->config();
         parent::__construct($config);
     }
 
@@ -29,7 +29,7 @@ class Log extends Component implements LogInterface
      */
     public function info(string $content)
     {
-        $this->write($content,LogInterface::INFO_TYPE);
+        $this->write($content,Log::INFO_TYPE);
     }
 
     /**
@@ -39,7 +39,7 @@ class Log extends Component implements LogInterface
      */
     public function warning(string $content)
     {
-        $this->write($content,LogInterface::WARNING_TYPE);
+        $this->write($content,Log::WARNING_TYPE);
     }
 
     /**
@@ -49,7 +49,7 @@ class Log extends Component implements LogInterface
      */
     public function error(string $content)
     {
-        $this->write($content,LogInterface::ERROR_TYPE);
+        $this->write($content,Log::ERROR_TYPE);
     }
 
     /**
@@ -59,7 +59,7 @@ class Log extends Component implements LogInterface
      */
     public function sqlLog(string $content)
     {
-        $this->write($content,LogInterface::SQL_TYPE);
+        $this->write($content,Log::SQL_TYPE);
     }
 
     /**

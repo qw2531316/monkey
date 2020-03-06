@@ -101,6 +101,7 @@ class UrlManager extends Component
             // 创建路径
             list($className,$action) = $this->rule->createUrl($this,$matchRoute);
             $object = Monkey::createObject($className);
+            Monkey::$app->controller = $object;
             return $object->$action();
         }
         return null;

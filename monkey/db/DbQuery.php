@@ -55,7 +55,7 @@ class DbQuery extends Component
             $config = self::getConfig();
             if(empty($config)){
                 $message = "数据库配置文件获取失败";
-                Monkey::$app->log->error($message);
+                Monkey::error($message);
                 throw new \Exception($message);
             }
             $this->connect = self::createQuery($config);

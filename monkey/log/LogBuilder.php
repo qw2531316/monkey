@@ -8,6 +8,7 @@
 
 namespace monkey\log;
 
+use Monkey;
 
 trait LogBuilder
 {
@@ -31,14 +32,10 @@ trait LogBuilder
 
     /**
      * 解析日志配置
-     * @param array $config
      */
-    public function config(array $config)
+    public function config()
     {
-        if(empty($config) || empty($config['BasePath'])){
-            return;
-        }
-        $this->config = $config;
+        $this->config = Monkey::getConfig('log');
     }
 
     /**

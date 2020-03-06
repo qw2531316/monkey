@@ -42,7 +42,7 @@ class Connection implements ConnectionInterface
             $pdo = new PDO($dns,$username,$password);
             $this->pdo = $pdo;
         }catch (\PDOException $e){
-            Monkey::$app->log->error($e->getMessage());
+            Monkey::error($e->getMessage());
             throw new \Exception("数据库加载异常！");
         }
         return $this;
@@ -135,7 +135,7 @@ class Connection implements ConnectionInterface
             //$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $result = $pdo->execute();
         }catch(\Exception $e){
-            Monkey::$app->log->sqlLog($e->getMessage());
+            Monkey::sqlLog($e->getMessage());
             return false;
         }
         return $result;

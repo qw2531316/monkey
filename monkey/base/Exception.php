@@ -15,9 +15,6 @@ class Exception extends \Exception
 {
     public function __construct(string $message = "")
     {
-        if(MONKEY_DEBUG){
-            Monkey::$app->log->error($message);
-        }
         parent::__construct($message);
     }
 }

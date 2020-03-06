@@ -214,7 +214,7 @@ class QueryBuilder
     {
         if(!in_array(strtolower($link),$this->joinSequence)){
             $message = 'JOIN类型不能使用 ' . $link;
-            Monkey::$app->log->error($message);
+            Monkey::error($message);
             throw new \InvalidArgumentException($message);
         }
         $prefix = $this->getPrefix();

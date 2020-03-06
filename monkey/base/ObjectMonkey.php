@@ -37,11 +37,11 @@ class ObjectMonkey
             return $this->$getter();
         }else if(method_exists($this,'set' . ucfirst($name))){
             $message = '该属性 write-only：' . get_class($this) . '::' . $name;
-            Monkey::$app->log->error($message);
+            Monkey::error($message);
             throw new \BadMethodCallException($message);
         }else{
             $message = '未知属性：' . get_class($this) . '::' . $name;
-            Monkey::$app->log->error($message);
+            Monkey::error($message);
             throw new \Exception($message);
         }
     }
@@ -60,11 +60,11 @@ class ObjectMonkey
             return $this->$setter($value);
         }else if(method_exists($this,'get' . ucfirst($name))){
             $message = '该属性 read-only：' . get_class($this) . '::' . $name;
-            Monkey::$app->log->error($message);
+            Monkey::error($message);
             throw new \BadMethodCallException($message);
         }else{
             $message = '未知属性：' . get_class($this) . '::' . $name;
-            Monkey::$app->log->error($message);
+            Monkey::error($message);
             throw new \Exception($message);
         }
     }
@@ -90,7 +90,7 @@ class ObjectMonkey
             $this->$setter(null);
         }else if (method_exists($this,'get' . ucfirst($name))){
             $message = '该属性 read-only：' . get_class($this) . '::' . $name;
-            Monkey::$app->log->error($message);
+            Monkey::error($message);
             throw new \BadMethodCallException($message);
         }
     }

@@ -13,11 +13,11 @@ use Monkey;
 use monkey\url\UrlManager;
 use monkey\web\Request;
 use monkey\web\Response;
+use monkey\web\View;
 
 /**
  * 应用程序基类
  *
- * @property monkey\log\Log $log
  * @property monkey\db\DbQuery $db
  * @property \monkey\web\Request $request
  *
@@ -77,7 +77,7 @@ abstract class Application extends Module
 
             return $response->getStatusCode();
         }catch (\Exception $e){
-            Monkey::$app->log->error('响应失败【' . $e->getMessage() . '】');
+            Monkey::error('服务器内部错误【' . $e->getMessage() . '】');
             return 0;
         }
     }
@@ -88,16 +88,7 @@ abstract class Application extends Module
      * @return Response
      * @throws \Exception
      */
-    public function handleRequest($request)
-    {
-        $result = $request->resolve();
-        $response = $this->getResponse();
-        if($result !== null){
-            $response->content = $result;
-        }
-
-        return $response;
-    }
+    abstract public function handleRequest($request);
 
     /**
      * 获取URLManager对象
@@ -130,15 +121,20 @@ abstract class Application extends Module
     }
 
     /**
+     * View对象
+     * @return callable|object|View
+     */
+    public function getView()
+    {
+        return $this->get('view');
+    }
+
+    /**
      * 默认组件
      * @return array
      */
     protected function components()
     {
-        return [
-            'request' => ['class' => '\monkey\web\Request'],
-            'response' => ['class' => '\monkey\web\Response'],
-            'rule' => ['class' => '\monkey\url\GenerateRule'],
-        ];
+        return [];
     }
 }
