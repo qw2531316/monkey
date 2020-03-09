@@ -9,7 +9,14 @@
 namespace monkey\base;
 
 
-class DisplayView
+abstract class DisplayView extends Component
 {
-
+    /**
+     * Display a view file.
+     * @param View $view
+     * @param string $file
+     * @param array $params
+     * @return string
+     */
+    abstract public function display(string $file,array $params = []);
 }
