@@ -27,6 +27,8 @@ abstract class Controller extends Component
      * 输出html
      * @param string $view
      * @param array $params
+     * @return string
+     * @throws \Exception
      */
     public function view(string $view,array $params = [])
     {

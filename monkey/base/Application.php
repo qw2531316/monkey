@@ -123,6 +123,7 @@ abstract class Application extends Module
     /**
      * View对象
      * @return callable|object|View
+     * @throws \Exception
      */
     public function getView()
     {

@@ -8,8 +8,6 @@
 
 namespace monkey\web;
 
-require ROOT_PATH . 'monkey/base/Application.php';
-
 class Application extends \monkey\base\Application
 {
     /**
@@ -24,6 +22,7 @@ class Application extends \monkey\base\Application
 
     /**
      * @return string 返回主页URL
+     * @throws \Exception
      */
     public function getHomeUrl()
     {
