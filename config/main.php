@@ -25,7 +25,7 @@ return [
             'class' => 'monkey\url\UrlManager',
             'enableManagerUrl' => true,
             'suffix' => '.html',
-            'defaultController' => 'controller\site\home',
+            'defaultController' => 'controller\site\Home',
             'defaultAction' => 'index',
             'rules' => [
                 'user' => 'member/user',
