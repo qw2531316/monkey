@@ -169,19 +169,19 @@ trait SQLBuilder
 
     private function createDelete()
     {
-        $sql = 'DELETE FROM ' . $this->table;
+        $sql = 'DELETE FROM ' . $this->realTable;
         return $sql;
     }
 
     private function createUpdate()
     {
-        $sql = "UPDATE " . $this->table . " SET " . $this->info;
+        $sql = "UPDATE " . $this->realTable . " SET " . $this->info;
         return $sql;
     }
 
     private function createInsert()
     {
-        $sql = "INSERT INTO " . $this->table . ' ' . $this->info;
+        $sql = "INSERT INTO " . $this->realTable . ' ' . $this->info;
         return $sql;
     }
 
